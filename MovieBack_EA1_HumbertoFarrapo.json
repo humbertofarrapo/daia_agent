@@ -1,0 +1,399 @@
+{
+  "name": "MovieBack_EA1_HumbertoFarrapo",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1060,
+        560
+      ],
+      "id": "469ef710-61f9-4d52-8747-0e6609f25cea",
+      "name": "When chat message received",
+      "webhookId": "3903fdb1-2829-4e92-b374-c2fdeb8ee651"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é o MovieBack, um agente de IA especializado em recomendação de filmes e entretenimento.\n\nSua função é auxiliar usuários a encontrar filmes de acordo com seus interesses, preferências e critérios informados, utilizando exclusivamente as informações disponíveis na base de conhecimento conectada ao agente e o contexto da conversa.\n\n1) Fonte de conhecimento\n\n* A base de conhecimento é a fonte oficial para recomendações e informações sobre filmes.\n* Somente filmes presentes e recuperados da base de conhecimento podem ser recomendados.\n* Nunca recomende um filme apenas porque ele é conhecido pelo modelo ou porque parece adequado ao pedido.\n* Não utilize conhecimento externo para complementar ou ampliar os resultados da base.\n* Se um filme não estiver disponível na base, informe que não há informações sobre ele na base de conhecimento.\n* Nunca invente filmes, dados, avaliações, gêneros, datas, diretores, temas ou outras informações.\n\n2) Aplicação dos critérios\n\n* Considere todos os critérios informados pelo usuário conjuntamente.\n* Os critérios explícitos do usuário devem ser tratados como restrições obrigatórias, salvo quando o próprio usuário solicitar alternativas ou permitir flexibilização.\n* Antes de recomendar um filme, verifique se ele atende a todos os critérios aplicáveis.\n* Se um filme não atender a qualquer um dos critérios, não o recomende.\n\n3) Datas e números\n\n* Interprete corretamente comparações temporais e numéricas. Exemplos:\n\t* \"depois de 2015\" → ano maior que 2015.\n\t* \"a partir de 2015\" → ano maior ou igual a 2015.\n\t* \"antes de 2010\" → ano menor que 2010.\n\t* \"até 2010\" → ano menor ou igual a 2010.\n\t* \"entre 2010 e 2015\" → considerar o intervalo solicitado.\n\t* \"nota acima de 8\" → avaliação maior que 8.\n\t* \"nota 8 ou mais\" → avaliação maior ou igual a 8.\n\n* Nunca inclua um filme que viole uma restrição explícita apenas para aumentar a quantidade de recomendações.\n\n4) Temas e preferências\n\n* Quando o usuário mencionar um tema específico, verifique se o filme possui relação direta com esse tema de acordo com as informações disponíveis na base, especialmente os campos de temas, gêneros, tags, sinopse e indicado_para.\n* Não classifique ou reclassifique um filme em um gênero com base em sua sinopse, temas, tags ou conhecimento externo.\n* Não considere que dois conceitos são equivalentes apenas por apresentarem associação superficial. Por exemplo:\n\t* \"viagem no tempo\" não significa simplesmente \"tempo\", \"realidade\", \"memória\" ou \"fantasia\".\n\t* \"ficção científica\" não significa automaticamente que qualquer filme com elementos fantásticos seja ficção científica.\n\n* Priorize correspondências explícitas ou claramente sustentadas pelos dados da base.\n\n5) Quantidade de recomendações\n\n* Recomende no máximo 3 filmes por resposta.\n* Não é obrigatório apresentar 3 filmes.\n* Se apenas 1 ou 2 filmes atenderem aos critérios, recomende somente esses filmes.\n* Nunca relaxe os critérios do usuário para completar 3 recomendações.\n* Se nenhum filme atender aos critérios, informe claramente que não foi encontrado filme compatível na base de conhecimento.\n\n6) Solicitações vagas\n\n* Se houver informação suficiente para recomendar um filme, não peça informações adicionais desnecessariamente.\n* Se o pedido for muito vago e não houver informação suficiente para uma recomendação relevante, faça uma pergunta curta para entender melhor a preferência do usuário.\n\n7) Contexto da conversa\n\n* Utilize o histórico da conversa para preservar preferências já informadas pelo usuário.\n* Quando o usuário fizer uma nova solicitação curta, como \"me recomenda um?\" ou \"pode indicar um?\", utilize as preferências relevantes estabelecidas anteriormente.\n* As preferências anteriores devem ser aplicadas como critérios da nova recomendação, quando o contexto indicar que continuam válidas.\n* Se o usuário alterar explicitamente sua preferência, priorize a informação mais recente.\n\n8) Informações da recomendação\n\n* Quando disponíveis na base, informe:\n\t* título;\n\t* ano;\n\t* gênero;\n\t* avaliação;\n\t* breve explicação de por que o filme corresponde ao pedido.\n\n* Utilize os dados exatamente como encontrados na base. Não invente informações ausentes.\n\n9) Fora do domínio\n\n* Se o usuário perguntar sobre assuntos que não estejam relacionados a filmes e entretenimento, informe educadamente que seu domínio é recomendação e informações sobre filmes.\n\n10) Estilo\n\n* Seja claro, amigável e objetivo.\n* Não apresente mais de 3 filmes em uma resposta.\n* Não repita desnecessariamente informações fornecidas pelo usuário.\n* Não apresente filmes que não estejam na base de conhecimento.\n* Não utilize conhecimento externo para completar uma lista de recomendações."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -808,
+        560
+      ],
+      "id": "39241b2e-790c-49b2-8177-cba3a70031a7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-5-nano"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -840,
+        780
+      ],
+      "id": "3c0380cc-4b80-4d38-8858-089ec1028d78",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "f1pYoc0ZOylXKBqR",
+          "name": "OpenAi account 27"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -720,
+        780
+      ],
+      "id": "a960926b-d0e3-435c-9a0b-5d5bb28752b0",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "humbertofarrapo",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "daia_agent",
+          "mode": "name"
+        },
+        "filePath": "filmes.json",
+        "asBinaryProperty": false,
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -840,
+        0
+      ],
+      "id": "ea4e3044-51aa-4240-8ee4-6b54722a6c58",
+      "name": "GitHub",
+      "webhookId": "aed79c90-83b9-4afd-ac7f-c5c0c5dcfd62",
+      "credentials": {
+        "githubApi": {
+          "id": "8AaL9ERAkJilXjID",
+          "name": "GitHub account 23"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        0
+      ],
+      "id": "c2034006-af52-40d7-aab9-a46c8f2445d3",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": "=text-embedding-3-small",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -512,
+        980
+      ],
+      "id": "5d74930b-1419-4507-8efa-b54571254d18",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "f1pYoc0ZOylXKBqR",
+          "name": "OpenAi account 27"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -152,
+        220
+      ],
+      "id": "9dfd4a57-bc93-478d-84e3-a4d401f383e4",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "f1pYoc0ZOylXKBqR",
+          "name": "OpenAi account 27"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $json.pageContent }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "metadata",
+                "value": "={{ $json.metadata }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -32,
+        220
+      ],
+      "id": "3bbe2cc2-318d-4292-91a6-24701c4742f8",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pega o primeiro item retornado pelo GitHub Node\nconst raw = Buffer.from($input.first().json.content, 'base64').toString('utf-8');\n\n// Converte para objeto JSON\nconst data = JSON.parse(raw);\n\nconst listaFilmes = Array.isArray(data) ? data : data.filmes;\n\nreturn listaFilmes.map((filme, i) => ({\n  json: {\n    id: i + 1,\n    titulo: filme.titulo,\n    ano: filme.ano,\n    diretor: filme.diretor,\n    sinopse: filme.sinopse,\n    avaliacao: filme.avaliacao,\n    duracao: filme.duracao,\n    idioma: filme.idioma,\n    pais: filme.pais,\n    elenco: filme.elenco,\n    metadata: filme.metadata\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -620,
+        0
+      ],
+      "id": "1a7a3a4e-b487-4eb1-b9e5-4c062c2803b2",
+      "name": "Code - Converte Filmes para Texto",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -180,
+        0
+      ],
+      "id": "4775efab-290b-4673-aa09-50b76240484e",
+      "name": "Supabase Vector Store - Insert",
+      "credentials": {
+        "supabaseApi": {
+          "id": "mby2TZPp5BwAMFLN",
+          "name": "Supabase account 16"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Base de conhecimento oficial do MovieBack contendo filmes e seus respectivos dados, incluindo título, ano, diretor, gêneros, avaliação, duração, sinopse, temas, idioma, país, elenco e indicações.\n\nUse esta ferramenta para buscar filmes que possam atender ao pedido do usuário.",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "topK": 10,
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -600,
+        782.5
+      ],
+      "id": "56331d6e-d178-4cfa-bf63-47a71927676d",
+      "name": "Supabase Vector Store - Retrieve",
+      "credentials": {
+        "supabaseApi": {
+          "id": "mby2TZPp5BwAMFLN",
+          "name": "Supabase account 16"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1) Pega todos os itens recebidos do nó anterior (nossa lista de filmes)\nlet docs = $input.all().map(i => i.json);\nif (Array.isArray(docs[0])) docs = docs[0]; // desembrulha se veio como array\n\n// 2) Pequena limpeza opcional de texto\nconst clean = (s='') =>\n  s.replace(/\\u00ad/g, '')\n   .replace(/[ \\t]+\\n/g, '\\n')\n   .replace(/\\n{3,}/g, '\\n\\n');\n\nconst out = [];\n\n// 3) Processa cada filme para criar o formato ideal para o Vector Store / Embedder\nfor (const filme of docs) {\n  // Monta um texto descritivo rico combinando as informações do filme (ótimo para embeddings)\n  const textoDescritivo = clean(`\n    Título: ${filme.titulo} (${filme.ano})\n    Diretor: ${filme.diretor}\n    Idioma: ${filme.idioma} | Duração: ${filme.duracao} min | Avaliação: ${filme.avaliacao}\n    País: ${Array.isArray(filme.pais) ? filme.pais.join(', ') : filme.pais}\n    Elenco: ${Array.isArray(filme.elenco) ? filme.elenco.join(', ') : filme.elenco}\n    Gêneros: ${filme.metadata?.generos ? filme.metadata.generos.join(', ') : ''}\n    Temas: ${filme.metadata?.temas ? filme.metadata.temas.join(', ') : ''}\n    Sinopse: ${filme.sinopse}\n  `.trim());\n\n  // Cada filme vira um item completo na base vetorial com seus metadados limpos e corretos\n  out.push({\n    json: {\n      pageContent: textoDescritivo, // Alterado de 'context' para 'pageContent' (padrão do n8n Vector Store)\n      metadata: {\n        id: filme.id,\n        titulo: filme.titulo,\n        ano: filme.ano,\n        diretor: filme.diretor,\n        avaliacao: filme.avaliacao,\n        idioma: filme.idioma,\n        tipo: filme.metadata?.tipo || \"filme\",\n        generos: filme.metadata?.generos || [],\n        temas: filme.metadata?.temas || [],\n        url_fonte: filme.metadata?.url_fonte || \"\"\n      }\n    }\n  });\n}\n\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        0
+      ],
+      "id": "09bfea16-f42d-4df2-9059-d6991e95072f",
+      "name": "Chunk"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "Code - Converte Filmes para Texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store - Retrieve",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store - Insert",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store - Insert",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Converte Filmes para Texto": {
+      "main": [
+        [
+          {
+            "node": "Chunk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store - Retrieve": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chunk": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store - Insert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e0c72169-d2cb-4883-810b-3b72baa5ad92",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2ef09b3ff7c0d13f07784f5a16ad0714adec809b2e8496f0ab7a6deb36f32a14"
+  },
+  "id": "dgXlvCyCwbV914T0",
+  "tags": []
+}
