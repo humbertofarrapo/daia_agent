@@ -151,7 +151,8 @@ Entre os principais ajustes realizados, destacam-se:
 * inclusão de regras para utilização do contexto da conversa;
 * definição de comportamento para solicitações vagas;
 * definição de comportamento para filmes ou informações ausentes da base;
-* definição de comportamento para solicitações fora do domínio de filmes e entretenimento.
+* definição de comportamento para solicitações fora do domínio de filmes e entretenimento;
+* padronização da formatação das respostas (utilização obrigatória de Markdown com títulos e rótulos em negrito e estruturação em tópicos para melhor legibilidade no chat).
 
 Esses ajustes foram realizados com o objetivo de reduzir recomendações incompatíveis com os critérios fornecidos e evitar que filmes fossem apresentados apenas por apresentarem semelhança semântica com a solicitação, quando não atendessem às restrições estabelecidas.
 
